@@ -1,0 +1,53 @@
+// Gramatica del pseudolenguaje -> PostgreSQL
+// Una instruccion por linea, las palabras clave no distinguen mayusculas.
+
+start: _NL? [statement (_NL statement)* _NL?]
+
+?statement: make
+          | get
+          | put
+          | drop
+
+// MAKE users (id id, name text, email text!)
+make: "MAKE"i NAME "(" field_def ("," field_def)* ")"
+field_def: NAME TYPE
+
+// GET name, email FROM users WHERE ... SORT created TOP 5
+get: "GET"i columns "FROM"i NAME [where] [sort] [top]
+columns: ALL
+       | NAME ("," NAME)*
+
+// PUT users (name = 'Alex')              -> INSERT
+// PUT users (name = 'Alex') WHERE ...    -> UPDATE
+put: "PUT"i NAME "(" assignment ("," assignment)* ")" [where]
+assignment: NAME "=" value
+
+// DROP users WHERE ...  -> DELETE        DROP users  -> DROP TABLE
+drop: "DROP"i NAME [where]
+
+where: "WHERE"i condition
+sort: "SORT"i NAME [DIRECTION]
+top: "TOP"i INT
+
+// OR pesa menos que AND, igual que en SQL
+condition: and_condition ("OR"i and_condition)*
+and_condition: comparison ("AND"i comparison)*
+comparison: NAME COMP_OP value
+
+?value: STRING
+      | NUMBER
+      | BOOL
+
+ALL: "ALL"i
+DIRECTION: "ASC"i | "DESC"i
+TYPE: /(id|num|text|bool|time)(?![A-Za-z0-9_])!?/i
+BOOL: /(true|false)(?![A-Za-z0-9_])/i
+COMP_OP: ">=" | "<=" | "<>" | "!=" | "=" | ">" | "<"
+NAME: /[A-Za-z_][A-Za-z0-9_]*/i
+NUMBER: /-?[0-9]+(\.[0-9]+)?/
+INT: /[0-9]+/
+STRING: /'([^'\n]|'')*'/ | /"[^"\n]*"/
+
+_NL: /(\r?\n[ \t]*)+/
+
+%ignore /[ \t]+/

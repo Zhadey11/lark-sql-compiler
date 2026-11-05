@@ -1,0 +1,1 @@
+MAKE type_catalog (id id, count num, required_count num!, label text, required_label text!, enabled bool, required_enabled bool!, created_at time, required_at time!)

@@ -1,0 +1,2 @@
+MAKE users (id id, email text!, display_name text, active bool, created_at time)
+MAKE products (id id, name text!, price num!, in_stock bool!)

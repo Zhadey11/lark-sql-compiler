@@ -1,0 +1,5 @@
+GET id, email FROM users WHERE active = true AND display_name != 'Unknown'
+GET id FROM products WHERE price >= 10 AND price <= 100 SORT price TOP 25
+GET id FROM users WHERE email <> "nobody@example.com" OR active = false
+PUT products (price = -1.25) WHERE in_stock = true
+DROP users WHERE active != true

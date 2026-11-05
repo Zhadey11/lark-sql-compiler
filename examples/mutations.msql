@@ -1,0 +1,5 @@
+PUT users (email = 'sam@example.com', display_name = 'Sam Fisher', active = true)
+PUT users (active = false) WHERE email = 'sam@example.com'
+PUT products (name = 'Field Notes', price = 12.50, in_stock = true)
+DROP users WHERE active = false
+DROP products

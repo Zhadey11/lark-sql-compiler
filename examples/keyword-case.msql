@@ -1,0 +1,3 @@
+make audit_log (id id, message text!, created_at time)
+put audit_log (message = 'Mixed case keywords')
+get ALL from audit_log sort created_at top 5

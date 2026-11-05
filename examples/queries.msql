@@ -1,0 +1,3 @@
+GET ALL FROM users
+GET email, display_name FROM users WHERE active = true SORT created_at DESC TOP 20
+GET name, price FROM products WHERE in_stock = true SORT price TOP 10
